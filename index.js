@@ -37,16 +37,6 @@ app.use(express.json());
 
 const port = process.env.PORT || 8080;
 
-
-app.listen(port, () => {
-  console.log(`App is listening on port ${port}`);
-});
-
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
-});
-
 // Ruta principal que responde con JSON
 app.get('/', async (req, res) => {
   try {
@@ -58,14 +48,15 @@ app.get('/', async (req, res) => {
 
     const respuesta = reposUsuario.map(repo => ({
       name: repo.name,
-      url: repo.html_url,
+      url_repository: repo.html_url,
       descripcion: repo.description,
       private: repo.private,
       language: repo.language,
       created_at: repo.created_at,
       updated_at: repo.pushed_at,
       organization: repo.owner.login === "HV-DEV-HTML" ? repo.owner.login : "",
-      data: repo
+      url_web: repo.homepage,
+      default_branch: repo.default_branch,
     }));
 
     // Enviar la respuesta como JSON
@@ -79,4 +70,13 @@ app.get('/', async (req, res) => {
 
 app.use((req, res, next) => {
   res.status(404).send("Sorry can't find that!");
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
+
+app.listen(port, () => {
+  console.log(`Servidor escuchando en http://localhost:${port}`);
 });
