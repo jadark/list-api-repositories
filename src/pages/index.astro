@@ -1,5 +1,5 @@
 ---
-const response = await fetch('http://localhost:4321/api/data.json');
+const response = await fetch(`${Astro.url.origin}/api/data.json`);
 const dataRepos = await response.json();
 import '@/styles/globals.css'
 import {
