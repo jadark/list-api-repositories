@@ -50,7 +50,7 @@ app.get('/', async (req, res) => {
       name: repo.name,
       url_repository: repo.html_url,
       descripcion: repo.description,
-      private: repo.private,
+      visibility: repo.visibility,
       language: repo.language,
       created_at: repo.created_at,
       updated_at: repo.pushed_at,
