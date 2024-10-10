@@ -1,0 +1,59 @@
+---
+const response = await fetch('http://localhost:4321/api/data.json');
+const dataRepos = await response.json();
+import '@/styles/globals.css'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import Layout from '../components/Layout.astro'
+---
+<Layout>
+  <div class="container mx-auto py-10">
+    <Table>
+      <TableCaption>Todos estos repositorios se obtienen de <a class="underline text-cyan-600" href="https://github.com/havas-media" target="_blank" rel="noopener noreferrer">havas-media</a></TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[200px]">Repositorio</TableHead>
+          <TableHead className="w-[300px]">URL Repo</TableHead>
+          <TableHead className="w-[300px]">URL Web</TableHead>
+          <TableHead>Descripción</TableHead>
+          <TableHead>Visibilidad</TableHead>
+          <TableHead className="w-[130px]">Organización</TableHead>
+          <TableHead className="text-right w-[130px]">Última Actulización</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {dataRepos.map(invoice => (
+          <TableRow key={invoice.nombre}>
+            <TableCell className="font-medium">{invoice.nombre}</TableCell>
+            <TableCell>
+              <a href={invoice.url_repo} class="underline text-cyan-600" target="_blank" rel="noopener noreferrer">
+                  {invoice.url_repo}
+              </a>
+            </TableCell>
+            <TableCell>
+              {invoice.url_web !== 'No especificado' ? (
+                <a href={invoice.url_web} class="underline text-cyan-600" target="_blank" rel="noopener noreferrer">
+                  {invoice.url_web}
+                </a>
+              ) : (
+                invoice.url_web
+              )}
+            </TableCell>
+            <TableCell>{invoice.description}</TableCell>
+            <TableCell>{invoice.visibility}</TableCell>
+            <TableCell>{invoice.org}</TableCell>
+            <TableCell className="text-right">{invoice.updated_at}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </div>
+  
+</Layout>
